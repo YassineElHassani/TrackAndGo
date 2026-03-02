@@ -18,3 +18,12 @@ services:
     stdin_open: true # allows interactive input for expo
     tty: true # runs the container with full terminal capabilities
     command: npx expo start --port 8082
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./mock/db.json:/app/db.json
