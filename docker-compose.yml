@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+      - "19000:19000" # Expo dev tools (if older version)
+      - "19001:19001" # Metro bundler older version sometimes
+      - "19002:19002"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
+      - REACT_NATIVE_PACKAGER_HOSTNAME=localhost
+      # - CI=1 # can be used to disable interactive prompts
+    stdin_open: true # allows interactive input for expo
+    tty: true # runs the container with full terminal capabilities
+    command: npx expo start --port 8082
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./mock/db.json:/app/db.json

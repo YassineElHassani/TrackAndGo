@@ -1,0 +1,38 @@
+app-1  | [1G[0K\[1G[0K[90mStarting project at /app[39m
+app-1  | [90mReact Compiler enabled[39m
+app-1  | [2mStarting Metro Bundler[22m
+app-1  | ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+app-1  | █ ▄▄▄▄▄ █▄▄▄ ▀ ▀█▄█ ▄▄▄▄▄ █
+app-1  | █ █   █ ██▄▀ █ ▀ ▄█ █   █ █
+app-1  | █ █▄▄▄█ ██▀▄ ▄▄██▀█ █▄▄▄█ █
+app-1  | █▄▄▄▄▄▄▄█ ▀▄█ ▀ ▀▄█▄▄▄▄▄▄▄█
+app-1  | █  ▀  █▄██▄▀█▄██▀▀█▄▀▀█▀▀▄█
+app-1  | ███ ▀ █▄▄▀▄██▄▄▄▄█▄ ▄█▄▀▀ █
+app-1  | █▀█▀▄▄ ▄▀█  █▀▄  ▀█▄▄▀█▀ ██
+app-1  | █ ▄▀ █▀▄█ █▄█▀▀  ▀▄▀▀▄▄▀  █
+app-1  | █▄███▄█▄▄ ▀█ ▄██  ▄▄▄  ▄▀▄█
+app-1  | █ ▄▄▄▄▄ ██ ▀▀▄ ▄▀ █▄█ ███ █
+app-1  | █ █   █ █ ▄█▄▀ █ ▄  ▄▄ █  █
+app-1  | █ █▄▄▄█ █▀ ▄ ▀ ██▄ █▄▄▀   █
+app-1  | █▄▄▄▄▄▄▄█▄█▄▄▄▄██▄▄▄██▄██▄█
+app-1  | 
+app-1  | › Metro waiting on [4mexp://localhost:8082[24m
+app-1  | › Scan the QR code above with Expo Go (Android) or the Camera app (iOS)
+app-1  | 
+app-1  | › Web is waiting on [4mhttp://localhost:8082[24m
+app-1  | 
+app-1  | › Using [36mExpo Go[39m
+app-1  | › Press [1ms[22m [2m│[22m switch to development build
+app-1  | 
+app-1  | › Press [1ma[22m [2m│[22m open Android
+app-1  | › Press [1mw[22m [2m│[22m open web
+app-1  | 
+app-1  | › Press [1mj[22m [2m│[22m open debugger
+app-1  | › Press [1mr[22m [2m│[22m reload app
+app-1  | › Press [1mm[22m [2m│[22m toggle menu
+app-1  | › [1mshift+m[22m [2m│[22m more tools
+app-1  | › Press [1mo[22m [2m│[22m open project code in your editor
+app-1  | 
+app-1  | › Press [1m?[22m [2m│[22m show all commands
+app-1  | 
+app-1  | Logs for your project will appear below.[2m Press Ctrl+C to exit.[22m
