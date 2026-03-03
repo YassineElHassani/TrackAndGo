@@ -1,11 +1,11 @@
 {
   "expo": {
     "name": "Track & Go",
-    "slug": "Track And Go",
+    "slug": "track-and-go",
+    "scheme": "TrackAndGo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "ok",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -23,6 +23,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
+      "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
