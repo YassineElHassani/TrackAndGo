@@ -1,4 +1,4 @@
-name: TypeScript Type Check
+name: Code Quality Checks
 
 on:
   push:
@@ -29,8 +29,64 @@ jobs:
 
       - name: Report success
         if: success()
-        run: echo " TypeScript type checking passed!"
+        run: echo "✅ TypeScript type checking passed!"
 
       - name: Report failure
         if: failure()
-        run: echo " TypeScript type checking failed. Please fix the type errors."
+        run: echo "❌ TypeScript type checking failed. Please fix the type errors."
+
+  lint:
+    name: ESLint Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Report success
+        if: success()
+        run: echo "✅ ESLint check passed!"
+
+      - name: Report failure
+        if: failure()
+        run: echo "❌ ESLint check failed. Please fix the linting errors."
+
+  prettier:
+    name: Prettier Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Prettier check
+        run: npx prettier --check "**/*.{ts,tsx,js,jsx,json,md}"
+
+      - name: Report success
+        if: success()
+        run: echo "✅ Prettier check passed!"
+
+      - name: Report failure
+        if: failure()
+        run: echo "❌ Prettier check failed. Run 'npx prettier --write .' to fix formatting."
