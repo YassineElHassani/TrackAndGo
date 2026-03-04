@@ -40,6 +40,14 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera for capturing incident photos.",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone for recording incident videos.",
+          "recordAudioAndroid": true
+        }
       ]
     ],
     "experiments": {
