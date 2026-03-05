@@ -4,14 +4,15 @@ import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleLogin = () => {
+    const handleRegister = () => {
         // Basic validation could be here
-        // Redirect to main app (e.g., tabs layout)
+        // Redirect to main app or back to login
         router.replace('/(tabs)');
     };
 
@@ -28,8 +29,25 @@ export default function LoginScreen() {
                 >
                     {/* Form Section */}
                     <View className="space-y-5 pt-4">
-                        {/* Email Input */}
+                        {/* Name Input */}
                         <View>
+                            <Text className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2 ml-1">
+                                Full Name
+                            </Text>
+                            <View className="flex-row items-center bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 h-14">
+                                <Ionicons name="person-outline" size={20} color="#9ca3af" />
+                                <TextInput
+                                    className="flex-1 ml-3 text-base text-zinc-900 dark:text-white"
+                                    placeholder="John Doe"
+                                    placeholderTextColor="#9ca3af"
+                                    value={name}
+                                    onChangeText={setName}
+                                />
+                            </View>
+                        </View>
+
+                        {/* Email Input */}
+                        <View className="mt-5">
                             <Text className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2 ml-1">
                                 Email Address
                             </Text>
@@ -56,7 +74,7 @@ export default function LoginScreen() {
                                 <Ionicons name="lock-closed-outline" size={20} color="#9ca3af" />
                                 <TextInput
                                     className="flex-1 ml-3 text-base text-zinc-900 dark:text-white"
-                                    placeholder="Enter your password"
+                                    placeholder="Create a password"
                                     placeholderTextColor="#9ca3af"
                                     secureTextEntry={!showPassword}
                                     value={password}
@@ -73,22 +91,13 @@ export default function LoginScreen() {
                         </View>
                     </View>
 
-                    {/* Forgot Password */}
-                    <View className="flex-row justify-end mt-4 mb-8">
-                        <TouchableOpacity hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-                            <Text className="text-blue-600 dark:text-blue-400 font-bold text-sm">
-                                Forgot password?
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {/* Login Button */}
+                    {/* Register Button */}
                     <TouchableOpacity
-                        onPress={handleLogin}
-                        className="bg-blue-600 rounded-2xl h-14 items-center justify-center shadow-md shadow-blue-500/20 active:opacity-80"
+                        onPress={handleRegister}
+                        className="bg-blue-600 rounded-2xl h-14 items-center justify-center shadow-md shadow-blue-500/20 active:opacity-80 mt-8"
                     >
                         <Text className="text-white font-bold text-lg">
-                            Sign In
+                            Sign Up
                         </Text>
                     </TouchableOpacity>
 
@@ -116,14 +125,14 @@ export default function LoginScreen() {
                     {/* Spacer */}
                     <View className="flex-1 min-h-[40px]" />
 
-                    {/* Sign Up Link */}
+                    {/* Login Link */}
                     <View className="flex-row justify-center mt-auto pb-4">
                         <Text className="text-zinc-600 dark:text-zinc-400 text-base font-medium">
-                            Don't have an account?{' '}
+                            Already have an account?{' '}
                         </Text>
-                        <TouchableOpacity onPress={() => router.push('/(auth)/register')}>
+                        <TouchableOpacity onPress={() => router.push('/(auth)/login')}>
                             <Text className="text-blue-600 dark:text-blue-400 font-bold text-base">
-                                Sign up
+                                Sign in
                             </Text>
                         </TouchableOpacity>
                     </View>
