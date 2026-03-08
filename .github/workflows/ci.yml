@@ -1,0 +1,32 @@
+name: Track&Go CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ‚¨áÔ∏è Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ‚öôÔ∏è Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Ì≥¶ Install Dependencies
+        run: npm ci
+
+      - name: Ì¥ç Run Linter (ESLint)
+        run: npm run lint
+
+      - name: Ìª°Ô∏è Run Type-Checking (TypeScript)
+        run: npx tsc --noEmit
+

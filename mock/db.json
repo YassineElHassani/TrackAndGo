@@ -1,0 +1,106 @@
+{
+    "drivers": [
+        {
+            "id": "d1",
+            "name": "Alice Martin",
+            "email": "alice@trackandgo.com",
+            "password": "password123",
+            "phone": "+33 6 12 34 56 78",
+            "vehiclePlate": "AB-123-CD"
+        },
+        {
+            "id": "d2",
+            "name": "Bob Dupont",
+            "email": "bob@trackandgo.com",
+            "password": "password123",
+            "phone": "+33 6 98 76 54 32",
+            "vehiclePlate": "EF-456-GH"
+        }
+    ],
+    "packages": [
+        {
+            "id": "pkg1",
+            "trackingNumber": "TNG-2026-00001",
+            "barcode": "3760123456789",
+            "recipientName": "Jean Dupont",
+            "recipientPhone": "+33 6 11 22 33 44",
+            "address": "12 Rue de la Paix",
+            "city": "Paris",
+            "coordinates": { "latitude": 48.8698, "longitude": 2.3316 },
+            "status": "pending",
+            "deliveryInstructions": "Leave at door if no answer.",
+            "scheduledTime": "2026-03-05T09:00:00Z",
+            "weight": 1.2
+        },
+        {
+            "id": "pkg2",
+            "trackingNumber": "TNG-2026-00002",
+            "barcode": "3760123456790",
+            "recipientName": "Marie Curie",
+            "recipientPhone": "+33 6 55 44 33 22",
+            "address": "5 Avenue Montaigne",
+            "city": "Paris",
+            "coordinates": { "latitude": 48.8655, "longitude": 2.3008 },
+            "status": "delivered",
+            "scheduledTime": "2026-03-05T10:00:00Z",
+            "deliveredAt": "2026-03-05T10:22:00Z",
+            "proofCoordinates": { "latitude": 48.8656, "longitude": 2.3009 },
+            "weight": 0.5
+        },
+        {
+            "id": "pkg3",
+            "trackingNumber": "TNG-2026-00003",
+            "barcode": "3760123456791",
+            "recipientName": "Lucas Bernard",
+            "address": "30 Boulevard Haussmann",
+            "city": "Paris",
+            "coordinates": { "latitude": 48.8736, "longitude": 2.3320 },
+            "status": "pending",
+            "scheduledTime": "2026-03-05T11:00:00Z",
+            "weight": 3.0
+        },
+        {
+            "id": "pkg4",
+            "trackingNumber": "TNG-2026-00004",
+            "barcode": "3760123456792",
+            "recipientName": "Sophie Lambert",
+            "recipientPhone": "+33 6 77 88 99 00",
+            "address": "2 Place du Châtelet",
+            "city": "Paris",
+            "coordinates": { "latitude": 48.8579, "longitude": 2.3471 },
+            "status": "failed",
+            "scheduledTime": "2026-03-05T12:00:00Z",
+            "weight": 0.8
+        },
+        {
+            "id": "pkg5",
+            "trackingNumber": "TNG-2026-00005",
+            "barcode": "3760123456793",
+            "recipientName": "Paul Leblanc",
+            "address": "18 Rue du Faubourg Saint-Antoine",
+            "city": "Paris",
+            "coordinates": { "latitude": 48.8530, "longitude": 2.3710 },
+            "status": "pending",
+            "scheduledTime": "2026-03-05T14:00:00Z",
+            "weight": 2.5
+        }
+    ],
+    "routes": [
+        {
+            "id": "r1",
+            "driverId": "d1",
+            "date": "2026-03-05",
+            "packageIds": ["pkg1", "pkg2", "pkg3", "pkg4", "pkg5"]
+        }
+    ],
+    "incidents": [
+        {
+            "id": "inc1",
+            "packageId": "pkg4",
+            "type": "absent",
+            "comment": "Recipient did not answer after 3 attempts.",
+            "coordinates": { "latitude": 48.8579, "longitude": 2.3471 },
+            "timestamp": "2026-03-05T12:35:00Z"
+        }
+    ]
+}

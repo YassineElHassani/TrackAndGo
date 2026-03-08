@@ -1,17 +1,18 @@
 {
   "expo": {
     "name": "Track & Go",
-    "slug": "Track And Go",
+    "slug": "track-and-go",
+    "scheme": "TrackAndGo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "ok",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.trackandgo.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -22,6 +23,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
+      "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
@@ -37,6 +39,14 @@
           "dark": {
             "backgroundColor": "#000000"
           }
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera for capturing incident photos.",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone for recording incident videos.",
+          "recordAudioAndroid": true
         }
       ]
     ],
