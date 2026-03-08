@@ -1,135 +1,171 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import { login } from '@/services/auth.service';
+import { useAuth } from '@/store/auth-context';
+
 export default function LoginScreen() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
+  const { signIn } = useAuth();
+  const scheme = useColorScheme() ?? 'light';
+  const c = Colors[scheme];
+  const isDark = scheme === 'dark';
 
-    const handleLogin = () => {
-        // Basic validation could be here
-        // Redirect to main app (e.g., tabs layout)
-        router.replace('/(tabs)');
-    };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-    return (
-        <SafeAreaView className="flex-1 bg-white dark:bg-zinc-950">
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1 }}
-            >
-                <ScrollView
-                    contentContainerStyle={{ flexGrow: 1 }}
-                    keyboardShouldPersistTaps="handled"
-                    className="px-6 pt-12 pb-8"
-                >
-                    {/* Form Section */}
-                    <View className="space-y-5 pt-4">
-                        {/* Email Input */}
-                        <View>
-                            <Text className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2 ml-1">
-                                Email Address
-                            </Text>
-                            <View className="flex-row items-center bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 h-14">
-                                <Ionicons name="mail-outline" size={20} color="#9ca3af" />
-                                <TextInput
-                                    className="flex-1 ml-3 text-base text-zinc-900 dark:text-white"
-                                    placeholder="name@example.com"
-                                    placeholderTextColor="#9ca3af"
-                                    keyboardType="email-address"
-                                    autoCapitalize="none"
-                                    value={email}
-                                    onChangeText={setEmail}
-                                />
-                            </View>
-                        </View>
+  const handleLogin = async () => {
+    try {
+      setIsLoading(true);
+      const session = await login({ email: email.trim(), password });
+      await signIn(session);
+      router.replace('/(tabs)');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Login failed. Please try again.';
+      Alert.alert('Sign In Failed', message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-                        {/* Password Input */}
-                        <View className="mt-5">
-                            <Text className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2 ml-1">
-                                Password
-                            </Text>
-                            <View className="flex-row items-center bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 h-14">
-                                <Ionicons name="lock-closed-outline" size={20} color="#9ca3af" />
-                                <TextInput
-                                    className="flex-1 ml-3 text-base text-zinc-900 dark:text-white"
-                                    placeholder="Enter your password"
-                                    placeholderTextColor="#9ca3af"
-                                    secureTextEntry={!showPassword}
-                                    value={password}
-                                    onChangeText={setPassword}
-                                />
-                                <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className="p-2 -mr-2">
-                                    <Ionicons
-                                        name={showPassword ? "eye-off-outline" : "eye-outline"}
-                                        size={22}
-                                        color="#9ca3af"
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
+  const inputBg    = isDark ? '#18212F' : '#F8FAFC';
+  const inputBorder = isDark ? '#2D3A4A' : '#E2E8F0';
+  const labelColor  = isDark ? '#CBD5E1' : '#374151';
+  const dividerColor = isDark ? '#2D3A4A' : '#E2E8F0';
+  const mutedColor  = isDark ? '#94A3B8' : '#6B7280';
+  const socialBg   = isDark ? '#18212F' : '#F8FAFC';
 
-                    {/* Forgot Password */}
-                    <View className="flex-row justify-end mt-4 mb-8">
-                        <TouchableOpacity hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-                            <Text className="text-blue-600 dark:text-blue-400 font-bold text-sm">
-                                Forgot password?
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+  return (
+    <SafeAreaView style={[s.root, { backgroundColor: c.background }]} edges={['top', 'bottom']}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={s.flex}>
+        <ScrollView
+          contentContainerStyle={s.scroll}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Fields */}
+          <View style={s.fields}>
+            <View>
+              <Text style={[s.label, { color: labelColor }]}>Email Address</Text>
+              <View style={[s.inputRow, { backgroundColor: inputBg, borderColor: inputBorder }]}>
+                <Ionicons name="mail-outline" size={20} color="#9CA3AF" />
+                <TextInput
+                  style={[s.input, { color: c.text }]}
+                  placeholder="name@example.com"
+                  placeholderTextColor="#9CA3AF"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  value={email}
+                  onChangeText={setEmail}
+                />
+              </View>
+            </View>
 
-                    {/* Login Button */}
-                    <TouchableOpacity
-                        onPress={handleLogin}
-                        className="bg-blue-600 rounded-2xl h-14 items-center justify-center shadow-md shadow-blue-500/20 active:opacity-80"
-                    >
-                        <Text className="text-white font-bold text-lg">
-                            Sign In
-                        </Text>
-                    </TouchableOpacity>
+            <View>
+              <Text style={[s.label, { color: labelColor }]}>Password</Text>
+              <View style={[s.inputRow, { backgroundColor: inputBg, borderColor: inputBorder }]}>
+                <Ionicons name="lock-closed-outline" size={20} color="#9CA3AF" />
+                <TextInput
+                  style={[s.input, { color: c.text }]}
+                  placeholder="Enter your password"
+                  placeholderTextColor="#9CA3AF"
+                  secureTextEntry={!showPassword}
+                  value={password}
+                  onChangeText={setPassword}
+                />
+                <TouchableOpacity onPress={() => setShowPassword(!showPassword)} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+                  <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={22} color="#9CA3AF" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
 
-                    {/* Divider */}
-                    <View className="flex-row items-center mt-10 mb-8">
-                        <View className="flex-1 h-[1px] bg-zinc-200 dark:bg-zinc-800" />
-                        <Text className="mx-4 text-zinc-500 dark:text-zinc-400 font-medium text-sm">
-                            Or continue with
-                        </Text>
-                        <View className="flex-1 h-[1px] bg-zinc-200 dark:bg-zinc-800" />
-                    </View>
+          {/* Forgot password */}
+          <View style={s.forgotRow}>
+            <TouchableOpacity hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+              <Text style={[s.forgotText, { color: c.tint }]}>Forgot password?</Text>
+            </TouchableOpacity>
+          </View>
 
-                    {/* Social Buttons */}
-                    <View className="flex-row gap-4">
-                        <TouchableOpacity className="flex-1 flex-row items-center justify-center bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl h-14 active:opacity-70">
-                            <Ionicons name="logo-google" size={20} color={Platform.OS === 'ios' ? '#000' : '#DB4437'} />
-                            <Text className="ml-2 font-bold text-zinc-700 dark:text-zinc-300">Google</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity className="flex-1 flex-row items-center justify-center bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl h-14 active:opacity-70">
-                            <Ionicons name="logo-apple" size={20} color={Platform.OS === 'ios' ? '#000' : '#FFF'} />
-                            <Text className="ml-2 font-bold text-zinc-700 dark:text-zinc-300">Apple</Text>
-                        </TouchableOpacity>
-                    </View>
+          {/* Sign In button */}
+          <TouchableOpacity
+            style={[s.primaryBtn, { backgroundColor: c.tint, opacity: isLoading ? 0.75 : 1 }]}
+            onPress={handleLogin}
+            disabled={isLoading}
+            activeOpacity={0.85}
+          >
+            {isLoading
+              ? <ActivityIndicator color="#fff" />
+              : <Text style={s.primaryBtnText}>Sign In</Text>
+            }
+          </TouchableOpacity>
 
-                    {/* Spacer */}
-                    <View className="flex-1 min-h-[40px]" />
-
-                    {/* Sign Up Link */}
-                    <View className="flex-row justify-center mt-auto pb-4">
-                        <Text className="text-zinc-600 dark:text-zinc-400 text-base font-medium">
-                            Don't have an account?{' '}
-                        </Text>
-                        <TouchableOpacity onPress={() => router.push('/(auth)/register')}>
-                            <Text className="text-blue-600 dark:text-blue-400 font-bold text-base">
-                                Sign up
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </SafeAreaView>
-    );
+          {/* Footer */}
+          <View style={s.footer}>
+            <Text style={[s.footerText, { color: mutedColor }]}>Don't have an account? </Text>
+            <TouchableOpacity onPress={() => router.push('/(auth)/register')}>
+              <Text style={[s.footerLink, { color: c.tint }]}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
 }
+
+const s = StyleSheet.create({
+  root: { flex: 1 },
+  flex: { flex: 1 },
+  scroll: { flexGrow: 1, paddingHorizontal: 24, paddingTop: 40, paddingBottom: 32 },
+  fields: { gap: 20, paddingTop: 16 },
+  label: { fontSize: 13, fontWeight: '600', marginBottom: 8, marginLeft: 2 },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    height: 56,
+    gap: 10,
+  },
+  input: { flex: 1, fontSize: 15 },
+  forgotRow: { alignItems: 'flex-end', marginTop: 14, marginBottom: 28 },
+  forgotText: { fontSize: 13, fontWeight: '700' },
+  primaryBtn: { height: 56, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  primaryBtnText: { color: '#fff', fontSize: 17, fontWeight: '700' },
+  dividerRow: { flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 36, marginBottom: 28 },
+  dividerLine: { flex: 1, height: StyleSheet.hairlineWidth },
+  dividerText: { fontSize: 13, fontWeight: '500' },
+  socialRow: { flexDirection: 'row', gap: 14 },
+  socialBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 56,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    gap: 8,
+  },
+  socialBtnText: { fontSize: 14, fontWeight: '700' },
+  footer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 'auto', paddingTop: 32 },
+  footerText: { fontSize: 15, fontWeight: '500' },
+  footerLink: { fontSize: 15, fontWeight: '700' },
+});

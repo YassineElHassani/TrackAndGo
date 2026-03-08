@@ -1,50 +1,89 @@
-# Welcome to your Expo app 👋
+# Track&Go
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Track&Go** is a mobile solution for express delivery companies to manage the "last mile". In an industry where precision and traceability are vital, this application allows delivery drivers to manage their routes smoothly while providing indisputable proof of delivery via geolocation, barcode scanning, and photo captures.
 
-## Get started
+## Acknowledgements
 
-1. Install dependencies
+A massive thank you to the incredible development team who worked tirelessly to bring **Track&Go** to life. Your dedication to code quality, problem-solving, and collaboration made this project a success!
 
-   ```bash
-   npm install
-   ```
+- **[Soulayman Jaafar]** - [@solixman](https://github.com/solixman)
+- **[Smail Najim]** - [@Smailnajim](https://github.com/Smailnajim)
+- **[Zakaria El Ouannasse]** - [@elouannasse](https://github.com/elouannasse)
 
-2. Start the app
+## Key Features
 
-   ```bash
-   npx expo start
-   ```
+- **Secure Authentication (US1)**: Secure login flow for delivery drivers to access their personal routes and local state persistence.
+- **Interactive Dashboard (US2)**: Track the overall progress of the route, optimized with `FlatList` for massive dynamic data rendering.
+- **Smart Scan Validation (US3)**: AI-powered barcode and QR code scanning via `expo-camera` to instantly verify package drops.
+- **Geo-certified Proof (US4)**: Interactive Map tracking (`react-native-maps`) and automatic GPS coordinate capture (`expo-location`) upon delivery.
+- **Complex Incident Management (US5)**: Report delivery exceptions (e.g., recipient absent, package damaged) with detailed forms and integrated photo capture.
 
-In the output, you'll find options to open the app in a
+## Technology Stack
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Framework**: [React Native](https://reactnative.dev) & [Expo](https://expo.dev/)
+- **Routing**: Expo Router (Hybrid file-based navigation flow)
+- **Language**: TypeScript (Strict typing for robust data flow)
+- **Styling**: NativeWind (TailwindCSS for React Native)
+- **Hardware APIs**: `expo-camera`, `expo-location`
+- **Visuals**: `react-native-maps`
+- **Backend/API**: Dockerized Mock REST API (JSON-Server)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Getting Started
 
-## Get a fresh project
+### Prerequisites
 
-When you're ready, run:
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [Docker](https://www.docker.com/) & Docker Compose (for the mock API)
+- [Expo Go](https://expo.dev/go) app on your physical device, or Android Studio / Xcode for emulators.
+
+### 1. Install Dependencies
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Start the Mock API (Backend)
 
-## Learn more
+The application consumes data from a containerized JSON server.
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+docker-compose up -d
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+> **Note**: The mock API defaults to port `3000`. By default, API calls point to the Android Emulator loopback `10.0.2.2:3000`. If you test on a physical device or iOS, update the `BASE_URL` in `services/api.ts` to your desktop's LAN IP address.
 
-## Join the community
+### 3. Run the Mobile App
 
-Join our community of developers creating universal apps.
+```bash
+npm run start:clean
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+In the terminal, you'll see a QR code. Scan it using **Expo Go** on your device, or press `a` to open the Android Emulator.
+
+**(Test Credentials)**
+
+- Email: `alice@trackandgo.com`
+- Password: `password123`
+
+## Project Structure
+
+```text
+TrackAndGo/
+├── app/                  # File-based routing (Auth -> Tabs -> Nested Stacks)
+├── components/           # Reusable UI components (Camera, BarcodeScanner, PackageCards)
+├── constants/            # Theming and app constants
+├── hooks/                # Custom React Hooks logic
+├── mock/                 # db.json containing our remote source of truth
+├── services/             # Three-tiered asynchronous API consumption logic
+├── store/                # Global state management via Context Providers (Auth, Routes)
+└── types/                # Strict TypeScript models and definitions
+```
+
+## CI/CD Pipeline
+
+This project enforces high code quality through **GitHub Actions**. Upon every Pull Request or commit to the `main` branch, an automated workflow triggers to run:
+
+- **Linting**: Runs ESLint to verify codebase standards and DRY principles.
+- **Type-Checking**: Runs `npx tsc --noEmit` to strictly validate all TypeScript architectures and data structures.
+
+---
